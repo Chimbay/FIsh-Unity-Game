@@ -6,7 +6,7 @@ using UnityEngine;
 public class Ship : MonoBehaviour
 {
     // Take a reference of component
-    private FishCollector fishInScene;
+    private Ocean fishInScene;
     // Current fish being targeted;
     private GameObject target;
     // Current direction being impulsed towards to
@@ -15,11 +15,13 @@ public class Ship : MonoBehaviour
     private Rigidbody2D rb;
     // Get the component of the HUD
     private HUD hud;
+    // Store the amount of points the ship has
+
 
     // Start is called before the first frame update
     void Start()
     {
-        fishInScene = Camera.main.GetComponent<FishCollector>();
+        fishInScene = Camera.main.GetComponent<Ocean>();
         rb = GetComponent<Rigidbody2D>();
         hud = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUD>();
     }
@@ -33,21 +35,10 @@ public class Ship : MonoBehaviour
     // OnMouseDown is called when the user has pressed the mouse button while over the Collider.
     IEnumerator OnMouseDown()
     {
-        while (fishInScene.fishies.Count != 0)
+        while (fishInScene.fishInOcean.Count != 0)
         {
             // Function that propels the ship to the nearest fish
             findNearestFish();
-
-            /* Code that collects fish in order
-             
-            // Target fishie
-            target = fishInScene.fishies.First();
-            // Get direction
-            direction = (target.transform.position - transform.position).normalized;
-            // Blast off
-            rb.AddForce(direction * 5f, ForceMode2D.Impulse);
-
-            */
 
             // Wait until boat stops
             yield return new WaitUntil(() => rb.velocity.magnitude < 0.1f);
@@ -59,14 +50,14 @@ public class Ship : MonoBehaviour
         // A check to make sure its actually hitting the right target 
         if(other.gameObject == target)
         {
-            // Destroys target
-            Destroy(target);
+            // Get the reference of Fish
+            Fish fishTarget = target.GetComponent<Fish>();
+
+            // Destroy fish
+            fishTarget.destroyFish();
+
             // If they touch, remove the target fish from the list
-            fishInScene.fishies.Remove(target);
-            /*
-             * Code to remove fish in order
-             * fishInScene.fishies.RemoveAt(0);
-             */
+            fishInScene.fishInOcean.Remove(other.gameObject);
 
             // Set the velocity to 0;
             rb.velocity = Vector2.zero;
@@ -79,11 +70,11 @@ public class Ship : MonoBehaviour
     void findNearestFish()
     {
         // Start with the first element in fishList
-        target = fishInScene.fishies.First();
+        target = fishInScene.fishInOcean.First();
         // Start with the distance of the first fish
         float nearestDistance = Vector3.Distance(transform.position, target.transform.position);
 
-        foreach (GameObject fish in fishInScene.fishies)
+        foreach (GameObject fish in fishInScene.fishInOcean)
         {
             // Store the comparing distance of the other fish
             float comparingDistance = Vector3.Distance(transform.position, fish.transform.position);
