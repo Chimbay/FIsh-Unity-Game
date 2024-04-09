@@ -19,6 +19,7 @@ public class HUD : MonoBehaviour
     /// </summary>
     void Start()
     {
+        score = 0;
         scoreText.text = ScorePrefix + score.ToString();
     }
 
@@ -29,6 +30,7 @@ public class HUD : MonoBehaviour
     public void AddPoints(int points)
     {
         score += points;
+        Debug.Log("Inner hud code: " + score);
         scoreText.text = ScorePrefix + score.ToString();
     }
 }

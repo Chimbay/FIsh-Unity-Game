@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class explodingFish : Fish
+public class explodingFish : animatedFish
 {
     void Start()
     {
