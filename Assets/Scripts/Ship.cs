@@ -15,8 +15,6 @@ public class Ship : MonoBehaviour
     private Rigidbody2D rb;
     // Get the component of the HUD
     private HUD hud;
-    // Store the amount of points the ship has
-
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +51,10 @@ public class Ship : MonoBehaviour
             // Get the reference of Fish
             Fish fishTarget = target.GetComponent<Fish>();
 
+            // Good capture, stores the point to the hud to present
+            hud.AddPoints(fishTarget.PointValue);
+            Debug.Log("Points being added: " + fishTarget.PointValue);
+
             // Destroy fish
             fishTarget.destroyFish();
 
@@ -62,7 +64,6 @@ public class Ship : MonoBehaviour
             // Set the velocity to 0;
             rb.velocity = Vector2.zero;
             Debug.Log("bang!");
-            hud.AddPoints(1);
         }
     }
 

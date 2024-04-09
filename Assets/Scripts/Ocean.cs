@@ -44,7 +44,7 @@ public class Ocean : MonoBehaviour
         GameObject newFish;
         // Hold a random integer
         int random = Random.Range(1, 4);
-        UnityEngine.Debug.Log(random);
+        UnityEngine.Debug.Log("Random integer: " + random);
 
         mousePos = Input.mousePosition;
         mousePos.z = -Camera.main.transform.position.z;
